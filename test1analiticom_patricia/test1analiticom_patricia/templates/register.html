@@ -1,0 +1,55 @@
+{% load staticfiles%}
+
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+    <html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="{% static 'assets/css/estilo1.css' %}" rel="stylesheet" type="text/css">
+      </head><body>
+
+        <div class="section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="section">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h1 class="text-center text-warning">Registro de Usuario</h1>
+                        <br>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-offset-4 col-md-6">
+
+                        <form role="form" method="post">
+                          {% csrf_token %}
+
+                          <div class="form-group">
+                            <div class="input-group input-group-sm">
+                            {{form.as_p}}
+                            </div>
+                          </div>
+
+                            <span class="input-group-btn">
+                              <button class="btn btn-warning" type="submit">Guardar</button>
+                            </span>
+                          </form></div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </body></html>

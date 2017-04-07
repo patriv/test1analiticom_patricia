@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'test1analiticom_patricia',
+    'login',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,7 +85,7 @@ DATABASES = {
         'USER': 'login_user',
         'PASSWORD': 'login123',
         'HOST': 'localhost',
-        'PORT': '', 
+        'PORT': '',
     }
 }
 
@@ -107,6 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#AUTH_USER_MODEL = 'login.MyUser'
 
 
 # Internationalization
