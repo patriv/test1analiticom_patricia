@@ -1,0 +1,64 @@
+{% load staticfiles%}
+
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+
+
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/estilo.css' %}" rel="stylesheet" type="text/css">
+  </head><body>
+    <div class="section"></div>
+    <div class="section"></div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <h3 class="panel-title">Login</h3>
+              </div>
+              <div class="panel-body">
+                {% if form.errors %}
+                  <p class="error">Debe ingresar su Username o Correo para iniciar sesión</p>
+                {% endif %}  
+                <form action="{% url 'index' %}" method="post">
+                  {% csrf_token %}
+                  <div class="control-group">
+                    <input type="text" class="login-field" placeholder="Username" name="username" style= 'width: 264px'>
+                    <label class="login-field-icon fui-user" for="login-name"></label>
+                  </div>
+                  <div class="control-group">
+                    <input type="password" class="login-field" placeholder="Password" name="password" style= 'width: 264px'>
+                    <label class="login-field-icon fui-lock" for="login-pass"></label>
+                  </div>
+                  <input class="btn btn-default" type="submit" value="Login" style= 'width: 264px'>
+                  <div id= 'register'>
+                  <a href='{% url 'register' %}'>Registro</a>
+                  </div>
+                  <div id= 'register'>
+                  <a href='{% url 'restart' %}'>¿Olvidó su Contraseña?</a>
+                  </div>
+                </form>
+                {% if error %}
+                  <p class="error"> <i class="fa fa-exclamation-triangle"></i>  <strong>Error:</strong> {{ error }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</body></html>

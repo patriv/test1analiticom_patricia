@@ -1,0 +1,12 @@
+.text-warning {
+  color: orange;
+}
+
+#campo{
+  position: relative;
+  left: 85px;  
+}
+
+.panel-heading{
+  background: orange;
+}
