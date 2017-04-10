@@ -20,7 +20,7 @@ urlpatterns = [
 	RestartPass.as_view(),
 	name='restart'),
 
-	url(r'^new-passw/$',
+	url(r'^new-passw/(?P<id>\w+)$',
 	NewPassw.as_view(),
 	name='new_passw'),
 

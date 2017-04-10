@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 
 class UserForm(forms.ModelForm):
-	print("UserForm")
 	passw = forms.CharField(label="Contraseña", required=True,
 							widget=forms.PasswordInput())
 	passw1 = forms.CharField(label="Repita Contraseña", required=True,
@@ -58,6 +57,7 @@ class UserForm(forms.ModelForm):
 		return self.cleaned_data
 
 	def save(self, commit=True):
+		print("aqui save de registroooooo!!!!!!!!!1")
 		user = super(UserForm, self).save(commit=False)
 		user.email = self.cleaned_data['email']
 		user.username = self.cleaned_data['username']
@@ -70,26 +70,33 @@ class UserForm(forms.ModelForm):
 		return user
 
 
-class LoginForm(forms.Form):
-	print("LoginForm")
+class LoginForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ('username','password','email',)
 
-class EmailForm(forms.Form):
-	print("form email")
+class EmailForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('email',)
+		fields = ("email", )
 
-	def clean_email(self):
+
+		widgets = {
+			'email': forms.TextInput(attrs={'required': 'true', 'placeholder':'Correo Electrónico'})
+		}
+
+
+	def clean(self):
+		print(self.cleaned_data)
 		email = self.cleaned_data.get('email')
 		print("clean!!")
 		print(email)
 		if User.objects.filter(email=email).count() == 0:
-			raise forms.ValidationError(u'Este correo no está registrado, por favor, verifíquelo.')
-		return email
+			print("entro clean")
+			msj = 'Este correo no está registrado, por favor, verifíquelo.'
+			self.add_error('email', msj)
+		return self.cleaned_data
 
 
 
@@ -99,40 +106,38 @@ class NewPasswForm(forms.Form):
 							widget=forms.PasswordInput())
 	passw1 = forms.CharField(label="Repita Contraseña", required=True,
 							widget=forms.PasswordInput())
+
 	class Meta:
 		model = User
-		fields = ("passw", "passw",)
+		fields = ("passw","passw1",)
 
-		widgets = {
-			'password': forms.PasswordInput(attrs={'required': 'true'}),
-			'passw1': forms.PasswordInput(attrs={'required': 'true'})
-		}
 
-		labels = {
-			'password': 'Nueva Contraseña',
-			'passw1': 'Confirme la 	Contraseña',
 
-			}
+	def clean(self):
+		print("clean de newpass!!!")
+		password1 = self.cleaned_data.get('passw')
+		print(password1)
+		password2 = self.cleaned_data.get('passw1')
+		print(password2)
+		lenPass = len(password1)
 
-# 	def clean(self):
-# 		password1 = self.cleaned_data.get('passw')
-# 		password2 = self.cleaned_data.get('passw1')
-# 		lenPass = len(password1)
-#
-# 		if password1 and password1 != password2:
-# 			msj = "Las contraseñas no coinciden, por favor intente nuevamente."
-# 			self.add_error('passw1',msj)
-#
-# 		if (lenPass < 4) or (lenPass >= 8 ):
-# 			msj = "La contraseña debe ser mayor a 4 dígitos y menor a 8."
-# 			self.add_error('passw',msj)
-#
-# 		return self.cleaned_data
-#
-# 		def save(self, commit=True):
-# 			user = super(RestartForm, self).save(commit=False)
-# 			password = self.cleaned_data['passw']
-# 			password1 = self.cleaned_data['passw1']
-# 			user.set_password(password)
-# 			user.save()
-# 			return use
+		if password1 and password1 != password2:
+			msj = "Las contraseñas no coinciden, por favor intente nuevamente."
+			self.add_error('passw1',msj)
+
+		if (lenPass < 4) or (lenPass >= 8 ):
+			msj = "La contraseña debe ser mayor a 4 dígitos y menor a 8."
+			self.add_error('passw',msj)
+
+		return self.cleaned_data
+
+
+	def save(self, commit=True):
+		print("form save")
+		user = super(NewPasswForm, self).save(commit=False)
+		password = self.cleaned_data['passw']
+		user.set_password(password)
+		user.save()
+		return user
+
+

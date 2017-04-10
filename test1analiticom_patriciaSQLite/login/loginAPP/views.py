@@ -29,8 +29,7 @@ class Index(TemplateView):
 			if user_auth is not None:
 				print("AQUI")
 				if user_auth.is_active:
-					print(user_auth.username)
-					print(password)
+
 					user = authenticate(username=user_auth.username,
 										password=password)
 
@@ -85,12 +84,12 @@ def authenticate_user(username=None, password=None):
 		except User.DoesNotExist:
 			return None
 
-class RestartPass(TemplateView):
+class RestartPass(CreateView):
 	template_name = 'restartPass.html'
 	form_class = EmailForm
 
 	def post (self,request,*args,**kwargs):
-		print("EN POST")
+
 		form = EmailForm(request.POST)
 		print(form.is_valid())
 		if form.is_valid():
@@ -99,10 +98,11 @@ class RestartPass(TemplateView):
 			print(email)
 			user = User.objects.filter(email=email).exists()
 			print(user)
-
 			if user is not False :
+				user1=User.objects.get(email = email)
+				print(user1.first_name)
 				return HttpResponseRedirect(reverse_lazy(
-					'new_passw'))
+					'new_passw',kwargs={'id': user1.pk}))
 			else:
 				context = {'form': form}
 				return render(request,'restartPass.html', context)
@@ -110,6 +110,47 @@ class RestartPass(TemplateView):
 			context = {'form': form}
 			return render(request,'restartPass.html', context)
 
-class NewPassw(TemplateView):
+class NewPassw(FormView):
 	template_name = 'newPassw.html'
+	form_class = NewPasswForm
+
+	def get_context_data(self, **kwargs):
+		context = super(NewPassw, self).get_context_data(**kwargs)
+		print("AQUIIIIIIIIIIIIII")
+		print(self.kwargs['id'])
+		user = User.objects.get(pk=self.kwargs['id'])
+		print("dentro del gett")
+		context['user'] = user
+		return context
+
+	def post(self, request, *args, **kwargs):
+		print("EN POST DE NEWpass")
+		form = NewPasswForm(request.POST)
+		print(form.is_valid())
+		print("anteesssss")
+		print(self.kwargs['id'])
+		if form.is_valid():
+			user_pk = self.kwargs['id']
+			user = User.objects.get(pk=user_pk)
+			print(user.first_name)
+			passw = request.POST['passw']
+			passw1 = request.POST['passw1']
+			print(passw)
+			print(passw1)
+			user.set_password(passw)
+			user.save()
+
+			return HttpResponseRedirect(reverse_lazy(
+				'index'))
+
+		else:
+			context = {'form': form}
+			return render(request, 'newPassw.html', context)
+
+
+
+
+
+
+
 	
