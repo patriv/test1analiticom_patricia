@@ -31,7 +31,7 @@
               <div class="panel-body">
                 {% if form.errors %}
                   <p class="error">Debe ingresar su Username o Correo para iniciar sesión</p>
-                {% endif %}  
+                {% endif %}
                 <form action="{% url 'index' %}" method="post">
                   {% csrf_token %}
                   <div class="control-group">
@@ -42,7 +42,7 @@
                     <input type="password" class="login-field" placeholder="Password" name="password" style= 'width: 264px'>
                     <label class="login-field-icon fui-lock" for="login-pass"></label>
                   </div>
-                  <input class="btn btn-default" type="submit" value="Login" style= 'width: 264px'>
+                  <input class="btn btn-warning" type="submit" value="Login" style= 'width: 264px'>
                   <div id= 'register'>
                   <a href='{% url 'register' %}'>Registro</a>
                   </div>

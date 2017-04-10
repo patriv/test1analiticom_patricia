@@ -16,9 +16,14 @@ urlpatterns = [
 	Home.as_view(),
 	name='home'),
 
-	url(r'^restartPass/$',
+	url(r'^restart/$',
 	RestartPass.as_view(),
 	name='restart'),
+
+	url(r'^new-passw/$',
+	NewPassw.as_view(),
+	name='new_passw'),
+
 
 
 ]

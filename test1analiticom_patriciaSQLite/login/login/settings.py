@@ -95,7 +95,7 @@ AUTH_PASSWORD_VALIDATORS = [
             'OPTIONS': {
             'min_length': 9,
         }
-   
+
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -127,4 +127,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "test1analiticom_patricia/static"),
 )
-
