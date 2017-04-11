@@ -70,7 +70,7 @@ class UserForm(forms.ModelForm):
 		return user
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
 	class Meta:
 		model = User
 		fields = ('username','password','email',)
@@ -139,5 +139,3 @@ class NewPasswForm(forms.Form):
 		user.set_password(password)
 		user.save()
 		return user
-
-

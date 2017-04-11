@@ -19,6 +19,7 @@ class Index(TemplateView):
 	def post(self,request,*args,**kwargs):
 
 		form = LoginForm(request.POST)
+		print(form)
 		if form.is_valid():
 			username =  request.POST['username']
 			print(username)
@@ -73,7 +74,9 @@ class Home(TemplateView):
 def authenticate_user(username=None, password=None):
 	try:
 		#Obtengo al usuario
+		print("funcion")
 		user = User.objects.get(username=username)
+		print(user)
 		if user is not None:
 			return user
 	except User.DoesNotExist:
@@ -116,7 +119,6 @@ class NewPassw(FormView):
 
 	def get_context_data(self, **kwargs):
 		context = super(NewPassw, self).get_context_data(**kwargs)
-		print("AQUIIIIIIIIIIIIII")
 		print(self.kwargs['id'])
 		user = User.objects.get(pk=self.kwargs['id'])
 		print("dentro del gett")
@@ -135,8 +137,6 @@ class NewPassw(FormView):
 			print(user.first_name)
 			passw = request.POST['passw']
 			passw1 = request.POST['passw1']
-			print(passw)
-			print(passw1)
 			user.set_password(passw)
 			user.save()
 
@@ -146,11 +146,3 @@ class NewPassw(FormView):
 		else:
 			context = {'form': form}
 			return render(request, 'newPassw.html', context)
-
-
-
-
-
-
-
-	

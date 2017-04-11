@@ -26,12 +26,16 @@
           <div class="col-md-10">
             <div class="panel panel-warning">
               <div class="panel-heading">
-                <h3 class="panel-title">Login</h3>
+                <h3 class="panel-title">Bienvenida</h3>
+                <a href ="{% url 'logout' %}">Salir</a>
               </div>
+              <form action="">
+                {% csrf_token %}
               <div class="panel-body">
 
               <h1>Bienvenido</h1>
               </div>
+            </form>
             </div>
           </div>
         </div>
