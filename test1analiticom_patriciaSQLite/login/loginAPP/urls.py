@@ -32,8 +32,4 @@ urlpatterns = [
 	NewPassw.as_view(),
 	name='new_passw'),
 
-
-
-
-
 ]

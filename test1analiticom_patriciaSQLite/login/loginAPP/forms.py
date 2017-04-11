@@ -8,26 +8,12 @@ class UserForm(forms.ModelForm):
 	passw = forms.CharField(label="Contraseña", required=True,
 							widget=forms.PasswordInput())
 	passw1 = forms.CharField(label="Repita Contraseña", required=True,
-							widget=forms.PasswordInput())
+							 widget=forms.PasswordInput())
 
 	class Meta:
 		model = User
 		fields = ("username","email","first_name","last_name", )
 
-
-		widgets = {
-			'email': forms.TextInput(attrs={'required': 'true'}),
-			'first_name': forms.TextInput(attrs={'required': 'true'}),
-			'last_name': forms.TextInput(attrs={'required': 'true'})
-
-		}
-
-		labels = {
-			'email': 'Correo',
-			'first_name': 'Nombre',
-			'last_name': 'Apellido',
-
-			}
 
 	def clean_username(self):
 		username = self.cleaned_data.get('username')
@@ -36,6 +22,7 @@ class UserForm(forms.ModelForm):
 		return username
 
 	def clean_email(self):
+		print("Clean email")
 		email = self.cleaned_data.get('email')
 		if User.objects.filter(email=email).count() != 0:
 			raise forms.ValidationError(u'Este correo ya está siendo utilizado.')
@@ -57,7 +44,6 @@ class UserForm(forms.ModelForm):
 		return self.cleaned_data
 
 	def save(self, commit=True):
-		print("aqui save de registroooooo!!!!!!!!!1")
 		user = super(UserForm, self).save(commit=False)
 		user.email = self.cleaned_data['email']
 		user.username = self.cleaned_data['username']
@@ -71,9 +57,11 @@ class UserForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
+
 	class Meta:
 		model = User
 		fields = ('username','password','email',)
+
 
 class EmailForm(forms.ModelForm):
 
@@ -81,44 +69,32 @@ class EmailForm(forms.ModelForm):
 		model = User
 		fields = ("email", )
 
-
 		widgets = {
-			'email': forms.TextInput(attrs={'required': 'true', 'placeholder':'Correo Electrónico'})
+			'email': forms.EmailInput(attrs=
+                                     {'required': 'true', 'placeholder':'Correo Electrónico'})
 		}
 
-
 	def clean(self):
-		print(self.cleaned_data)
 		email = self.cleaned_data.get('email')
-		print("clean!!")
-		print(email)
 		if User.objects.filter(email=email).count() == 0:
-			print("entro clean")
 			msj = 'Este correo no está registrado, por favor, verifíquelo.'
 			self.add_error('email', msj)
 		return self.cleaned_data
 
 
-
 class NewPasswForm(forms.Form):
-	print("hola")
 	passw = forms.CharField(label="Contraseña", required=True,
 							widget=forms.PasswordInput())
 	passw1 = forms.CharField(label="Repita Contraseña", required=True,
-							widget=forms.PasswordInput())
+							 widget=forms.PasswordInput())
 
 	class Meta:
 		model = User
 		fields = ("passw","passw1",)
 
-
-
 	def clean(self):
-		print("clean de newpass!!!")
 		password1 = self.cleaned_data.get('passw')
-		print(password1)
 		password2 = self.cleaned_data.get('passw1')
-		print(password2)
 		lenPass = len(password1)
 
 		if password1 and password1 != password2:
@@ -132,10 +108,3 @@ class NewPasswForm(forms.Form):
 		return self.cleaned_data
 
 
-	def save(self, commit=True):
-		print("form save")
-		user = super(NewPasswForm, self).save(commit=False)
-		password = self.cleaned_data['passw']
-		user.set_password(password)
-		user.save()
-		return user
